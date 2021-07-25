@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class HitAndBlowTest {   
     public static void main(String[] args) throws Exception
     {
+        GUI interfaccia = new GUI();
         Scanner input = new Scanner(System.in); //scanner per leggere gli input dei due giocatori
         Game hitAndBlow = new Game();
         boolean victory;
