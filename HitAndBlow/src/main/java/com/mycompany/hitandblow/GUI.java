@@ -49,7 +49,8 @@ public class GUI extends JFrame
     private int xRowFound;
     private int colore;
     private int round = 0;
-    
+    private int victoryChoice;
+    private boolean occupied;
     
     public GUI() throws IOException, Exception
     {
@@ -115,8 +116,8 @@ public class GUI extends JFrame
         
         xArea=setXArea(xArea);
         yArea=setYArea(yArea);
-        printArray(yArea);
-        printArray(xArea);
+        /*printArray(yArea);
+        printArray(xArea);*/
         round = 0;
     }
     
@@ -133,11 +134,11 @@ public class GUI extends JFrame
             JLabel pin;
             
             
-            System.out.println("X :"+xPos);
+            /*System.out.println("X :"+xPos);
             System.out.println("Y :"+yPos);
             System.out.println("Colonna effettiva :"+yColumnFound);
             System.out.println("Riga effettiva :"+xRowFound);
-            
+            */
             if(xRowFound == 5)
             {
                 if(yColumnFound>1&&yColumnFound<8)
@@ -145,16 +146,29 @@ public class GUI extends JFrame
                 else if(yColumnFound==0)
                 {
                     try {
-                            
-                        hitAndBlow.printGrid();
-                        victory = hitAndBlow.victoryCheck(round);                                                                   
-                        System.out.println("Round:"+round);
-                        System.out.println("Numero di Hit:"+hitAndBlow.getHit());
-                        System.out.println("Numero di Blow:"+hitAndBlow.getBlow());
-                        printSolution(round);
-                        hitAndBlow.resetHit();
-                        hitAndBlow.resetBlow();
-                        round++;                                                    //se si clicka nella posizione dell'OK allora fare il controllo di vittoria e andare avanti di turno
+                        
+                        occupied = true;
+                        for(int i=0;i<4;i++)
+                        {
+                            if(hitAndBlow.getGrid().getSpot(i, round).occupied()==false)
+                            {
+                                JOptionPane.showConfirmDialog(null, "Inserire i colori correttamente nella colonna","Errore",JOptionPane.DEFAULT_OPTION);
+                                occupied=false;
+                                break;
+                            }
+                        }
+                        
+                        if(occupied){
+                            //hitAndBlow.printGrid();
+                            victory = hitAndBlow.victoryCheck(round);
+                            /*System.out.println("Round:"+round);
+                            System.out.println("Numero di Hit:"+hitAndBlow.getHit());
+                            System.out.println("Numero di Blow:"+hitAndBlow.getBlow());*/
+                            printSolution(round);
+                            hitAndBlow.resetHit();
+                            hitAndBlow.resetBlow();
+                            round++;
+                        }//se si clicka nella posizione dell'OK allora fare il controllo di vittoria e andare avanti di turno
                     } catch (Exception ex) {
                         Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -253,9 +267,9 @@ public class GUI extends JFrame
                 }
             }
             
-            if(victory)
+            if(victory==true || round == 8)
             {
-                System.out.println(hitAndBlow.getPlayer().getName()+" HAI VINTO! SPARISCIH");       //Fa sparire la Solution Label che copre la soluzione e la stampa a schermo
+                //System.out.println(hitAndBlow.getPlayer().getName()+" HAI VINTO!");       //Fa sparire la Solution Label che copre la soluzione e la stampa a schermo
                 boardPanel.remove(solutionLabel);
                 for(int i=0;i<4;i++)
                 {
@@ -353,6 +367,27 @@ public class GUI extends JFrame
                     }
                 }
                 boardPanel.repaint();
+                
+                if(victory)
+                    victoryChoice = JOptionPane.showConfirmDialog(null, "Hai vinto! Vuoi giocare ancora?","Vittoria!",JOptionPane.YES_NO_OPTION);
+                else
+                    victoryChoice = JOptionPane.showConfirmDialog(null, "Hai perso! Vuoi giocare ancora?","Sconfitta!",JOptionPane.YES_NO_OPTION);
+                
+                if(victoryChoice==JOptionPane.NO_OPTION)
+                    System.exit(0);
+                else if(victoryChoice ==JOptionPane.YES_OPTION)
+                {
+                    hitAndBlow = new Game();
+                    boardPanel.removeAll();
+                    boardPanel.add(boardLabel,1);
+                    boardPanel.add(okLabel,1,-1);
+                    boardPanel.add(solutionLabel,0);
+                    boardPanel.add(hitAndBlowLabel,1);
+                    boardPanel.add(colorLabel,1);
+                    boardPanel.add(backgroundLabel,6);
+                    boardPanel.repaint();
+                    round = 0;
+                }
             }
         }
         

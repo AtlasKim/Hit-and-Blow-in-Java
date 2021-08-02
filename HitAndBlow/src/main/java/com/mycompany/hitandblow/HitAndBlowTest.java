@@ -15,7 +15,7 @@ public class HitAndBlowTest {
     public static void main(String[] args) throws Exception
     {
         GUI interfaccia = new GUI();
-        Scanner input = new Scanner(System.in); //scanner per leggere gli input dei due giocatori
+        /*Scanner input = new Scanner(System.in); //scanner per leggere gli input dei due giocatori
         Game hitAndBlow = new Game();
         boolean victory;
         String replay = "Y";
@@ -84,6 +84,6 @@ public class HitAndBlowTest {
                 hitAndBlow.getSolution().printSolution();
                 return;
             }
-        }
+        }*/
     }
 }
