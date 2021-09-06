@@ -24,7 +24,7 @@ public class Game {
     public Game()
     {
         griglia = new Grid();
-        giocatore = new Player("Gianfranco");
+        giocatore = new Player("Erika");
         soluzione = new Solution();
         hit = 0;
         blow = 0;

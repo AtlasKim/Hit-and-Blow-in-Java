@@ -27,8 +27,8 @@ public class Piece {
     {
         return(this.pieceColor);
     }
-
-    void setPieceColor(int colore_generato) {
+    
+    /*void setPieceColor(int colore_generato) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }*/
 }
